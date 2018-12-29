@@ -18,7 +18,7 @@ class Worker:
         
         if len(self.doing) < self.capacity and self.todo:
             for _ in range(min([self.todo, self.capacity])):
-                if not self.pull or not self.target or not self.target.max_todo or (self.done + self.batch_size) < self.target.max_todo:
+                if not self.pull or not self.target or not self.target.max_todo or (self.done + self.target.todo + self.batch_size) <= self.target.max_todo:
                     self.todo -= 1
                     self.doing.append(0)
 
