@@ -1,19 +1,16 @@
-from dataclasses import dataclass, field
-from typing import Union, Any
 
-
-@dataclass
 class Worker:
-    todo: int = 0
-    doing: list = field(default_factory=list, repr=False)
-    done: int = 0
-    target: Any = field(default=None, repr=False)
-    task_duration: int = field(default=1, repr=False)
-    batch_size: int = field(default=1, repr=False)
-    max_todo: Union[int, type(None)] = field(default=None, repr=False)
-    _task_time: int = field(default=0, repr=False)
-    pull: bool = field(default=False, repr=False)
-    capacity: int = 1
+
+    def __init__(self, todo=0, target=None, task_duration=1, batch_size=1, max_todo=None, pull=False, capacity=1):
+        self.todo = todo
+        self.doing = []
+        self.done = 0
+        self.target = target
+        self.task_duration = task_duration
+        self.batch_size = batch_size
+        self.max_todo = max_todo
+        self.pull = pull
+        self.capacity = capacity
 
 
     def work(self):
