@@ -5,7 +5,7 @@ from typing import Union, Any
 @dataclass
 class Worker:
     todo: int = 0
-    doing: int = 0
+    doing: list = field(default_factory=list, repr=False)
     done: int = 0
     target: Any = field(default=None, repr=False)
     task_duration: int = field(default=1, repr=False)
@@ -13,20 +13,23 @@ class Worker:
     max_todo: Union[int, type(None)] = field(default=None, repr=False)
     _task_time: int = field(default=0, repr=False)
     pull: bool = field(default=False, repr=False)
+    capacity: int = 1
 
 
     def work(self):
         
-        if not self.doing and self.todo:
-            if not self.pull or not self.target or not self.target.max_todo or (self.done + int(bool(self.doing)) + self.batch_size) < self.target.max_todo:
-                self.todo -= 1
-                self.doing += 1
-        if self.doing:
-            self._task_time += 1
-            if self._task_time >= self.task_duration:
-                self.doing = 0
-                self._task_time = 0
+        if len(self.doing) < self.capacity and self.todo:
+            for _ in range(self.capacity):
+                if not self.pull or not self.target or not self.target.max_todo or (self.done + self.batch_size) < self.target.max_todo:
+                    self.todo -= 1
+                    self.doing.append(0)
+
+        for idx in reversed(range(len(self.doing))):
+            self.doing[idx] += 1
+            if self.doing[idx] >= self.task_duration:
+                self.doing.pop(idx)
                 self.done += 1
+
     
     def push(self):
 
@@ -50,5 +53,5 @@ class Worker:
         
     @property
     def wip(self):
-        return self.todo + self.doing
+        return self.todo + len(self.doing)
 

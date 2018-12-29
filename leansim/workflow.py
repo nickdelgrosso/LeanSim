@@ -41,18 +41,20 @@ class Workflow:
     def __repr__(self):
         rep = ''
 
-        rep += 'pull:\t ' + '\t '.join('Y' if w.pull else ' b' for w in self.workers) + '\n'
-        rep += 'task:\t ' + '\t '.join(str(w.task_duration) for w in self.workers) + '\n'
+        rep += 'pull:\t ' + '\t '.join('Y' if w.pull else ' ' for w in self.workers) + '\n'
+        rep += 'task:\t ' + '\t '.join(str(w.task_duration) if w.task_duration > 1 else ' ' for w in self.workers) + '\n'
+        rep += 'capaci:\t ' + '\t '.join(str(w.capacity) if w.capacity > 1 else ' ' for w in self.workers) + '\n'
         rep += 'batch:\t ' + '\t '.join(str(w.batch_size) for w in self.workers) + '\n'
-        rep += 'limit:\t ' + '\t '.join(str(w.max_todo) if w.max_todo else "∞" for w in self.workers) + '\n'
+        rep += 'limit:\t ' + '\t '.join(str(w.max_todo) if w.max_todo else ' ' for w in self.workers) + '\n'
 
         rep += ''.join('\t---' for _ in self.workers) + '\n'
 
         # for idx, w in enumerate(self.workers):
         #     rep += f'\t-'
         # rep += '\n'
-        for attr in ['todo', 'doing', 'done']:
-                rep += f'{attr}:\t ' + '\t '.join(f'{getattr(w, attr)}' for w in self.workers) + '\n'
+        rep += f'todo:\t ' + '\t '.join(f'{w.todo if w.todo else " "}' for w in self.workers) + '\n'
+        rep += f'doing:\t ' + '\t '.join(f'{len(w.doing) if w.doing else " "}' for w in self.workers) + '\n'
+        rep += f'done:\t ' + '\t '.join(f'{w.done if w.done else " "}' for w in self.workers) + '\n'
 
         rep += ''.join('\t---' for _ in self.workers) + '\n'
 
