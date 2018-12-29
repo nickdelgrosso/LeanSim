@@ -44,7 +44,7 @@ class Workflow:
         rep += 'pull:\t ' + '\t '.join('Y' if w.pull else ' ' for w in self.workers) + '\n'
         rep += 'task:\t ' + '\t '.join(str(w.task_duration) if w.task_duration > 1 else ' ' for w in self.workers) + '\n'
         rep += 'capaci:\t ' + '\t '.join(str(w.capacity) if w.capacity > 1 else ' ' for w in self.workers) + '\n'
-        rep += 'batch:\t ' + '\t '.join(str(w.batch_size) for w in self.workers) + '\n'
+        rep += 'batch:\t ' + '\t '.join(str(w.batch_size) if w.batch_size > 1 else ' ' for w in self.workers) + '\n'
         rep += 'limit:\t ' + '\t '.join(str(w.max_todo) if w.max_todo else ' ' for w in self.workers) + '\n'
 
         rep += ''.join('\t---' for _ in self.workers) + '\n'

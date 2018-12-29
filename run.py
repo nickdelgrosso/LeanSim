@@ -1,6 +1,6 @@
 from leansim import Worker, Workflow
 
-queue = [Worker(batch_size=20, task_duration=1, capacity=2, pull=False, max_todo=None) for _ in range(4)]
+queue = [Worker(batch_size=1, task_duration=2, capacity=1, pull=True, max_todo=2) for _ in range(4)]
 for w1, w2 in zip(queue[:-1], queue[1:]):
     w1.target = w2
 

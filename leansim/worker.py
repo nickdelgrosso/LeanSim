@@ -46,7 +46,7 @@ class Worker:
         if to_push:
             if not self.target:
                 self.done -= to_push
-            elif not self.target.max_todo or (self.target.max_todo >= self.target.todo + self.target.doing + to_push):
+            elif not self.target.max_todo or (self.target.max_todo >= self.target.todo + len(self.target.doing) + to_push):
                 self.target.todo += to_push
                 self.done -= to_push
                     
