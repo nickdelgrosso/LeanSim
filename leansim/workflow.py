@@ -1,4 +1,3 @@
-from IPython.display import clear_output
 from time import sleep
 import os
 from .worker import Worker
@@ -32,7 +31,6 @@ class Workflow:
             steps += 1
             self.step()
             if verbose:
-                clear_output()
                 os.system('cls' if os.name == 'nt' else 'clear')
                 print(self)
                 print(f'Steps: {steps}', end='\n\n', flush=True)
