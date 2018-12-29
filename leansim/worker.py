@@ -12,13 +12,15 @@ class Worker:
     batch_size: int = field(default=1, repr=False)
     max_todo: Union[int, type(None)] = field(default=None, repr=False)
     _task_time: int = field(default=0, repr=False)
+    pull: bool = field(default=False, repr=False)
 
 
     def work(self):
         
         if not self.doing and self.todo:
-            self.todo -= 1
-            self.doing += 1
+            if not self.pull or not self.target or not self.target.max_todo or (self.outbox + int(bool(self.doing)) + self.batch_size) < self.target.max_todo:
+                self.todo -= 1
+                self.doing += 1
         if self.doing:
             self._task_time += 1
             if self._task_time >= self.task_duration:
