@@ -52,4 +52,3 @@ class Worker:
     def wip(self):
         return self.todo + self.doing
 
-Worker(todo=3)
