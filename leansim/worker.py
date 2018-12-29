@@ -17,18 +17,22 @@ class Worker:
 
 
     def work(self):
+        """Processes work in todo and doing.  Returns amount of work done in this call."""
         
         if len(self.doing) < self.capacity and self.todo:
-            for _ in range(self.capacity):
+            for _ in range(min([self.todo, self.capacity])):
                 if not self.pull or not self.target or not self.target.max_todo or (self.done + self.batch_size) < self.target.max_todo:
                     self.todo -= 1
                     self.doing.append(0)
 
+        work_done = 0
         for idx in reversed(range(len(self.doing))):
             self.doing[idx] += 1
+            work_done += 1
             if self.doing[idx] >= self.task_duration:
                 self.doing.pop(idx)
                 self.done += 1
+        return work_done
 
     
     def push(self):
