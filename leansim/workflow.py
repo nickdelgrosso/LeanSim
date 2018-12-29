@@ -33,7 +33,7 @@ class Workflow:
             if verbose:
                 os.system('cls' if os.name == 'nt' else 'clear')
                 print(self)
-                print(f'Steps: {steps}', end='\n\n', flush=True)
+                print('Steps: {}'.format(steps), end='\n\n', flush=True)
                 if sleep_time:
                     sleep(sleep_time)
         return steps
