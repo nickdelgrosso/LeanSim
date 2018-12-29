@@ -8,6 +8,6 @@ install:
   - pip install coveralls
 # command to run tests
 script:
-  - coverage run --source=XCaliburMethodReader setup.py test
+  - coverage run --source=leansim setup.py test
 after_success:
   - coveralls
