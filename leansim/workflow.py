@@ -39,9 +39,7 @@ class Workflow:
 
         rep += 'limit:\t ' + '\t '.join(str(w.max_todo) if w.max_todo else "∞" for w in self.workers) + '\n'
 
-        for idx, w in enumerate(self.workers):
-            rep += '\t---'
-        rep += '\n'
+        rep += ''.join('\t---' for _ in self.workers) + '\n'
 
         # for idx, w in enumerate(self.workers):
         #     rep += f'\t-'
@@ -49,9 +47,8 @@ class Workflow:
         for attr in ['todo', 'doing', 'outbox']:
                 rep += f'{attr}:\t ' + '\t '.join(f'{getattr(w, attr)}' for w in self.workers) + '\n'
 
-        for idx, w in enumerate(self.workers):
-            rep += '\t---'
-        rep += '\n'
+        rep += ''.join('\t---' for _ in self.workers) + '\n'
+
         rep += 'WIP: \t {}\n'.format("  ->\t ".join(str(w.wip) for w in self.workers))
 
         rep += '-------------------------------------\n'
