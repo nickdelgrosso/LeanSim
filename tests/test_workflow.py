@@ -1,5 +1,9 @@
 from leansim import Workflow, Worker
 from pytest import fixture
+import random
+
+random.seed(10)
+
 
 @fixture
 def wflow():
@@ -46,3 +50,11 @@ def test_workflow_total_work(wflow):
     wflow.step()
     assert wflow.total_work == 10
     assert wflow.wip == 1
+
+
+def test_chain_process_classmethod():
+    for _ in range(20):
+        workers, work = random.randint(1, 30), random.randint(1, 30)
+        assert Workflow.run_chained_process(workers=workers, work=work, batch_size=work) == workers * work
+        assert Workflow.run_chained_process(workers=workers, work=work, batch_size=1) == workers + work - 1
+
