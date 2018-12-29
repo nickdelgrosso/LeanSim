@@ -19,8 +19,8 @@ class Workflow:
         
     def step(self):
         for worker in self.workers[::-1]:
-            worker.push()
             work_done = worker.work()
+            worker.push()
             self.work_done += work_done
 
     def process(self, work, verbose=False, sleep_time=0):
@@ -37,7 +37,7 @@ class Workflow:
                 if sleep_time:
                     sleep(sleep_time)
         return steps
-    
+
     def __repr__(self):
         rep = ''
 
