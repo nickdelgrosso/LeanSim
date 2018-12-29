@@ -68,3 +68,12 @@ def test_worker_can_pass_on_work():
     assert w2.todo == 0 and w2.done == 0
     w1.push()
     assert w2.todo == 1 and w2.done == 0
+
+
+def test_worker_passes_on_all_work_in_batch():
+    for batch_size in range(1, 10):
+        w1, w2 = Worker(batch_size=batch_size), Worker()
+        w1.target = w2
+        w1.done = batch_size + 1
+        w1.push()
+        assert w1.done == 1and w2.todo == batch_size
