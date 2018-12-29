@@ -2,7 +2,7 @@ import argparse
 from . import Worker, Workflow
 
 def main():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description='A simple Lean production simulation, meant for exploring lean management concepts and sharing in a lecture setting.')
     parser.add_argument('--workers', '-w', default=4, type=int, help='Number of workers in value stream.')
     parser.add_argument('--work', default=100, type=int, help='Number of products to make.')
     parser.add_argument('--duration', default=2, type=int, help='Number of time steps each process takes.')
