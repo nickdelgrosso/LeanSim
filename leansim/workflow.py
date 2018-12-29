@@ -53,17 +53,19 @@ class Workflow:
 
         rep += '-----------------------------------------------------------\n'
 
-        for attr in ['total_work', 'wip', 'work_done']:
+        for attr in ['total_work', 'wip']:
             rep += '{}: {}     '.format(attr, getattr(self, attr))
 
         return rep
     
     @classmethod
-    def run_chained_process(cls, work=20, workers=4, verbose=False, sleep_time=0.2, **worker_kwargs):
+    def run_chained_process(cls, work=20, workers=4, verbose=False, sleep_time=0.2, bottleneck_worker=None, **worker_kwargs):
         queue = [Worker(**worker_kwargs) for _ in range(workers)]
         for w1, w2 in zip(queue[:-1], queue[1:]):
             w1.target = w2
         
         workflow = cls(workers=queue)
+        if bottleneck_worker:
+            workflow.workers[bottleneck_worker - 1].task_duration = workflow.workers[0].task_duration * 4
         steps = workflow.process(work=work, verbose=verbose, sleep_time=sleep_time)
         return steps

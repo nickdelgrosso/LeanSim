@@ -3,16 +3,18 @@ from . import Worker, Workflow
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--workers', '-w', default=4, help='Number of workers in value stream.')
-    parser.add_argument('--work', default=20, help='Number of products to make.')
-    parser.add_argument('--duration', default=2, help='Number of time steps each process takes.')
-    parser.add_argument('--batch', default=20, help='Batch size for each worker.')
-    parser.add_argument('--sleep', default=0.2, help='Time to sleep between steps.')
-    # parser.add_argument('--bottleneck', default=False)
+    parser.add_argument('--workers', '-w', default=4, type=int, help='Number of workers in value stream.')
+    parser.add_argument('--work', default=100, type=int, help='Number of products to make.')
+    parser.add_argument('--duration', default=2, type=int, help='Number of time steps each process takes.')
+    parser.add_argument('--batch', default=20, type=int, help='Batch size for each worker.')
+    parser.add_argument('--sleep', default=0.05, type=float, help='Time to sleep between steps.')
+    parser.add_argument('--bottleneck', default=0, type=int, help='Position of bottleneck. If 0, no bottleneck exists.')
+    parser.add_argument('--max_todo', default=None, type=int, help='Maximum worker todo list size. Used for demonstrating pull/kanban system')
+
 
     args = parser.parse_args()
     Workflow.run_chained_process(workers=args.workers, work=args.work, task_duration=args.duration, batch_size=args.batch,
-                                 verbose=True, sleep_time=args.sleep)
+                                 verbose=True, sleep_time=args.sleep, max_todo=args.max_todo, bottleneck_worker=args.bottleneck)
 
 
 
