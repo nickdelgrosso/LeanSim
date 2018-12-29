@@ -40,30 +40,22 @@ class Workflow:
 
     def __repr__(self):
         rep = ''
+        for attr in ['task_duration', 'capacity', 'batch_size', 'max_todo', '', 'todo', 'doing', 'done', '', 'wip']:
+            rep += '{:>15}:'.format(attr)
+            for w in self.workers:
+                if attr:
+                    val = getattr(w, attr)
+                    val = len(val) if hasattr(val, '__iter__') else val
+                    rep += '\t {}'.format(val if val else ' ')
+                else:
+                    rep += '\t---'
+            rep += '\n'
 
-        rep += 'pull:\t ' + '\t '.join('Y' if w.pull else ' ' for w in self.workers) + '\n'
-        rep += 'task:\t ' + '\t '.join(str(w.task_duration) if w.task_duration > 1 else ' ' for w in self.workers) + '\n'
-        rep += 'capaci:\t ' + '\t '.join(str(w.capacity) if w.capacity > 1 else ' ' for w in self.workers) + '\n'
-        rep += 'batch:\t ' + '\t '.join(str(w.batch_size) if w.batch_size > 1 else ' ' for w in self.workers) + '\n'
-        rep += 'limit:\t ' + '\t '.join(str(w.max_todo) if w.max_todo else ' ' for w in self.workers) + '\n'
+        rep += '-----------------------------------------------------------\n'
 
-        rep += ''.join('\t---' for _ in self.workers) + '\n'
+        for attr in ['total_work', 'wip', 'work_done']:
+            rep += '{}: {}     '.format(attr, getattr(self, attr))
 
-        # for idx, w in enumerate(self.workers):
-        #     rep += f'\t-'
-        # rep += '\n'
-        rep += f'todo:\t ' + '\t '.join(f'{w.todo if w.todo else " "}' for w in self.workers) + '\n'
-        rep += f'doing:\t ' + '\t '.join(f'{len(w.doing) if w.doing else " "}' for w in self.workers) + '\n'
-        rep += f'done:\t ' + '\t '.join(f'{w.done if w.done else " "}' for w in self.workers) + '\n'
-
-        rep += ''.join('\t---' for _ in self.workers) + '\n'
-
-        rep += 'WIP: \t {}\n'.format("  ->\t ".join(str(w.wip) for w in self.workers))
-
-        rep += '-------------------------------------\n'
-        rep += f'Total Work Done:   {self.work_done}\n'
-        rep += f'Total Products Remaining:   {self.total_work}\n'
-        rep += f'Workflow WIP: {self.wip}'
         return rep
     
     @classmethod
