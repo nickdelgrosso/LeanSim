@@ -68,7 +68,7 @@ class Workflow:
     
     @classmethod
     def run_chained_process(cls, work=20, workers=4, batch_size=1, verbose=False):
-        queue = [Worker(batch_size=batch_size) for _ in range(4)]
+        queue = [Worker(batch_size=batch_size) for _ in range(workers)]
         for w1, w2 in zip(queue[:-1], queue[1:]):
             w1.target = w2
         
