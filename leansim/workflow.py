@@ -13,7 +13,7 @@ class Workflow:
 
     @property
     def total_work(self):
-        return sum(w.wip + w.done for w in self.workers)
+        return sum(w.wip + w.done for w in self.workers) - self.workers[-1].done
 
     @property
     def wip(self):
@@ -25,9 +25,13 @@ class Workflow:
             worker.push()
             self.work_done += work_done
 
-    def process(self, work, verbose=False, sleep_time=0):
+    def process(self, work, verbose=False, sleep_time=0, start_delay=1.5):
         """Returns number of steps to process some piece of work."""
         self.workers[0].todo = work
+        if verbose:
+            os.system('cls' if os.name == 'nt' else 'clear')
+            print(self)
+            sleep(start_delay)
         steps = 0
         while self.total_work:
             steps += 1
