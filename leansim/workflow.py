@@ -42,7 +42,7 @@ class Workflow:
         return steps
 
     def __repr__(self):
-        rep = ''
+        rep = '------------------------- LEAN SIM --------------------------------\n\n'
         for attr in ['task_duration', 'capacity', 'batch_size', 'max_todo', '', 'todo', 'doing', 'done', '', 'wip']:
             rep += '{:>15}:'.format(attr)
             for w in self.workers:
@@ -54,7 +54,7 @@ class Workflow:
                     rep += '\t---'
             rep += '\n'
 
-        rep += '-----------------------------------------------------------\n'
+        rep += '\n-------------------------------------------------------------------\n'
 
         for attr in ['total_work', 'wip']:
             rep += '{}: {}     '.format(attr, getattr(self, attr))

@@ -10,11 +10,13 @@ def main():
     parser.add_argument('--sleep', default=0.05, type=float, help='Time to sleep between steps.')
     parser.add_argument('--bottleneck', default=0, type=int, help='Position of bottleneck. If 0, no bottleneck exists.')
     parser.add_argument('--max_todo', default=None, type=int, help='Maximum worker todo list size. Used for demonstrating pull/kanban system')
+    parser.add_argument('--pull', action='store_true', help='Have workers pull, only accepting work if next worker can take the output.')
 
 
     args = parser.parse_args()
     Workflow.run_chained_process(workers=args.workers, work=args.work, task_duration=args.duration, batch_size=args.batch,
-                                 verbose=True, sleep_time=args.sleep, max_todo=args.max_todo, bottleneck_worker=args.bottleneck)
+                                 verbose=True, sleep_time=args.sleep, max_todo=args.max_todo, bottleneck_worker=args.bottleneck,
+                                 pull=args.pull)
 
 
 
