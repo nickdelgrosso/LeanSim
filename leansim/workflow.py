@@ -37,6 +37,7 @@ class Workflow:
     def __repr__(self):
         rep = ''
 
+        rep += 'batch:\t ' + '\t '.join(str(w.batch_size) for w in self.workers) + '\n'
         rep += 'limit:\t ' + '\t '.join(str(w.max_todo) if w.max_todo else "∞" for w in self.workers) + '\n'
 
         rep += ''.join('\t---' for _ in self.workers) + '\n'
