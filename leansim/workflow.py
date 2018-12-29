@@ -11,7 +11,7 @@ class Workflow:
 
     @property
     def total_work(self):
-        return sum(w.wip + w.outbox for w in self.workers)
+        return sum(w.wip + w.done for w in self.workers)
 
     @property
     def wip(self):
@@ -51,7 +51,7 @@ class Workflow:
         # for idx, w in enumerate(self.workers):
         #     rep += f'\t-'
         # rep += '\n'
-        for attr in ['todo', 'doing', 'outbox']:
+        for attr in ['todo', 'doing', 'done']:
                 rep += f'{attr}:\t ' + '\t '.join(f'{getattr(w, attr)}' for w in self.workers) + '\n'
 
         rep += ''.join('\t---' for _ in self.workers) + '\n'
