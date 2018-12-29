@@ -10,4 +10,5 @@ setup(
     author_email='delgrosso.nick@gmail.com',
     description='A simple Lean production simulation, meant for exploring lean management concepts and sharing in a lecture setting.',
     tests_require=['pytest'],
+    setup_requires=['pytest-runner'],
 )
