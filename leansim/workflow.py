@@ -8,10 +8,14 @@ class Workflow:
     
     def __init__(self, workers):
         self.workers = workers
-        
+
+    @property
+    def total_work(self):
+        return sum(w.wip + w.outbox for w in self.workers)
+
     @property
     def wip(self):
-        return sum(w.wip + w.outbox for w in self.workers)
+        return self.total_work - self.workers[0].todo
         
     def step(self):
         for worker in self.workers[::-1]:
@@ -22,7 +26,7 @@ class Workflow:
         """Returns number of steps to process some piece of work."""
         self.workers[0].todo = work
         steps = 0
-        while self.wip:
+        while self.total_work:
             steps += 1
             self.step()
             if verbose:
@@ -54,6 +58,7 @@ class Workflow:
         rep += 'WIP: \t {}\n'.format("  ->\t ".join(str(w.wip) for w in self.workers))
 
         rep += '-------------------------------------\n'
+        rep += f'Total Work:   {self.total_work}\n'
         rep += f'Workflow WIP: {self.wip}'
         return rep
     
