@@ -20,7 +20,7 @@ class Workflow:
 
     def process(self, work, verbose=False, sleep_time=0):
         """Returns number of steps to process some piece of work."""
-        self.workers[0].todo = 20
+        self.workers[0].todo = work
         steps = 0
         while self.wip:
             steps += 1
@@ -37,6 +37,7 @@ class Workflow:
     def __repr__(self):
         rep = ''
 
+        rep += 'task:\t ' + '\t '.join(str(w.task_duration) for w in self.workers) + '\n'
         rep += 'batch:\t ' + '\t '.join(str(w.batch_size) for w in self.workers) + '\n'
         rep += 'limit:\t ' + '\t '.join(str(w.max_todo) if w.max_todo else "∞" for w in self.workers) + '\n'
 
