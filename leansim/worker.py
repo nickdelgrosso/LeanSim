@@ -12,8 +12,8 @@ class Worker:
     batch_size: int = field(default=1, repr=False)
     max_todo: Union[int, type(None)] = field(default=None, repr=False)
     _task_time: int = field(default=0, repr=False)
-    
-        
+
+
     def work(self):
         
         if not self.doing and self.todo:
@@ -27,23 +27,23 @@ class Worker:
                 self.outbox += 1
     
     def push(self):
+
+        if self.target and self.target.max_todo and self.batch_size > self.target.max_todo:
+            raise ValueError("target's max_todo is smaller than worker's batch size.  No pushing possible.")
+
         if self.outbox >= self.batch_size:
             to_push = self.batch_size
         elif self.outbox and not any([self.todo, self.doing]):
             to_push = self.outbox
         else:
             to_push = 0
-        
-        if not self.target:
-            self.outbox -= to_push
-        elif not self.target.max_todo:
-            self.target.todo += to_push
-            self.outbox -= to_push
-        elif self.target.max_todo >= self.target.todo + self.target.doing + to_push:
-            self.target.todo += to_push
-            self.outbox -= to_push
-            if self.batch_size > self.target.max_todo:
-                raise ValueError("target's max_todo is smaller than worker's batch size.  No pushing possible.")
+
+        if to_push:
+            if not self.target:
+                self.outbox -= to_push
+            elif not self.target.max_todo or (self.target.max_todo >= self.target.todo + self.target.doing + to_push):
+                self.target.todo += to_push
+                self.outbox -= to_push
                     
         
     @property
