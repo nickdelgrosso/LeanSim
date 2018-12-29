@@ -1,7 +1,9 @@
+from __future__ import print_function
+
 from time import sleep
 import os
 from .worker import Worker
-
+import sys
 
 class Workflow:
     
@@ -33,7 +35,8 @@ class Workflow:
             if verbose:
                 os.system('cls' if os.name == 'nt' else 'clear')
                 print(self)
-                print('Steps: {}'.format(steps), end='\n\n', flush=True)
+                print('Steps: {}'.format(steps), end='\n\n')
+                sys.stdout.flush()
                 if sleep_time:
                     sleep(sleep_time)
         return steps
