@@ -76,4 +76,19 @@ def test_worker_passes_on_all_work_in_batch():
         w1.target = w2
         w1.done = batch_size + 1
         w1.push()
-        assert w1.done == 1and w2.todo == batch_size
+        assert w1.done == 1 and w2.todo == batch_size
+
+
+def test_worker_does_not_accept_too_much_work():
+    w1, w2 = Worker(), Worker(max_todo=2)
+    w1.target = w2
+    w1.done = 10
+    assert not w2.todo
+    w1.push()
+    assert w1.done == 9 and w2.todo == 1
+    w1.push()
+    assert w1.done == 8 and w2.todo == 2
+    w1.push()
+    assert w1.done == 8 and w2.todo == 2
+    w1.push()
+    assert w1.done == 8 and w2.todo == 2

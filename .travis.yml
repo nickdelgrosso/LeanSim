@@ -3,8 +3,11 @@ python:
   - "3.7-dev"  # 3.7 development branch
 # command to install dependencies
 install:
-  - pip install pytest
   - pip install .
+  - pip install pytest
+  - pip install coveralls
 # command to run tests
 script:
-  - pytest
+  - coverage run --source=XCaliburMethodReader setup.py test
+after_success:
+  - coveralls
