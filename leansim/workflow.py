@@ -37,7 +37,7 @@ class Workflow:
             steps += 1
             self.step()
             if verbose:
-                os.system('cls' if os.name == 'nt' else 'clear')
+                os.system('cls' if os.name == 'nt' else '   clear')
                 print(self)
                 print('Steps: {}'.format(steps), end='\n\n')
                 sys.stdout.flush()
