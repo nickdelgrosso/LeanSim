@@ -2,6 +2,7 @@
 class Worker:
 
     def __init__(self, todo=0, target=None, task_duration=1, batch_size=1, max_todo=None, pull=False, capacity=1):
+        """Returns a Worker with a single personal kanban."""
         self.todo = todo
         self.doing = []
         self.done = 0
@@ -14,7 +15,7 @@ class Worker:
 
 
     def work(self):
-        """Processes work in todo and doing.  Returns amount of work done in this call."""
+        """Processes one step of work in todo and doing.  Returns amount of work done in this call."""
         
         if len(self.doing) < self.capacity and self.todo:
             for _ in range(min([self.todo, self.capacity])):
@@ -33,6 +34,7 @@ class Worker:
 
     
     def push(self):
+        """Takes work from Done and moves it to the target's todo, if a target is available."""
 
         if self.target and self.target.max_todo and self.batch_size > self.target.max_todo:
             raise ValueError("target's max_todo is smaller than worker's batch size.  No pushing possible.")
@@ -52,5 +54,6 @@ class Worker:
         
     @property
     def wip(self):
+        """Work-in-progress.  How much work the worker has sitting at their station/desk."""
         return self.todo + len(self.doing)
 
