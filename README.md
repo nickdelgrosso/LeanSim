@@ -131,3 +131,16 @@ Steps: 41
 
 I hope you enjoy using it!  
 
+## Further Reading
+
+If you'd like to learn more about Lean and DevOps, I heartily recommend the following books:
+
+  - "The Goal: A Process of Ongoing Improvement Paperback" by Eliyahu M. Goldratt"
+  
+  - "The Phoenix Project: A Novel about IT, DevOps, and Helping Your Business Win" by Gene Kim
+  
+  - "Lean Product and Process Development" by Allen C. Ward
+  
+  - "Operations Methods: Waiting Line Applications (The Quantitative Approaches to Decision Making Collection)" by Ken Shaw 
+  
+  
